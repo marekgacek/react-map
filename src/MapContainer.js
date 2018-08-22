@@ -64,7 +64,7 @@ import ReactDOM from 'react-dom'
        // on that markers position.
        populateInfoWindow(marker, infowindow) {
          // Check to make sure the infowindow is not already opened on this marker.
-         if (infowindow.marker != marker) {
+         if (infowindow.marker !== marker) {
            infowindow.marker = marker;
            infowindow.setContent('<div>' + marker.title + '</div>');
            infowindow.open(this.map, marker);
@@ -75,10 +75,15 @@ import ReactDOM from 'react-dom'
          }
        }
    render() {
+     const {markers} = this.state
     return (
       <div>
         <div className="container">
-          <div className="sidebar text-input text-input-hidden">
+        <div className="text-input">
+          <ul className="location">{
+            markers.map((m, i) =>
+              (<li key={i}>{m.title}</li>))
+          }</ul>
           </div>
           <div role="application" className="map" ref="map">
             loading map...
