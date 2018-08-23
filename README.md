@@ -4,7 +4,7 @@ Project 8 (final) of the [Front-End Web Developer with Udacity](https://eu.udaci
 
 ## For Users
 
-- The application shows you some interesting **placces in Wroclaw (Poland)**
+- The application shows you some interesting **places in Wroclaw (Poland)**
 - You can access the **full list** of those locations on the right side of the screen
 - You can **filter** this list by typing the name of your desired location in the input field. The list will adjust
 - When clicking on a name on the list, the **marker** on the map to will show you the exact location by changing its color
