@@ -150,6 +150,7 @@ import ReactDOM from 'react-dom'
         <div className="container">
         <div className="text-input">
         <input role="search" type='text'
+        placeholder="Enter your favourite place!"
                    value={this.state.value}
                    onChange={this.whenValueChange}/>
           <ul className="locations-list">{
