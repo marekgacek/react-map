@@ -17,8 +17,10 @@
  .App-intro {
   font-size: large;
 }
-.locations-list:hover  {
+.locations-list li:hover  {
   cursor: pointer;
+  border-color: #f71607;
+	color: #f71607;
 }
  @keyframes App-logo-spin {
   from {
@@ -45,7 +47,7 @@
 }
  .text-input {
   width: 15%;
-  background-color: rgb(11, 16, 140);
+  background-color: rgb(57, 57, 62);
   height: 100vh;
 }
  .text-input input {

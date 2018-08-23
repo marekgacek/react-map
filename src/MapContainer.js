@@ -95,6 +95,7 @@ import ReactDOM from 'react-dom'
            });
          }
        }
+
    render() {
      const { locations, query, markers, infowindow} = this.state
     if (query) {
