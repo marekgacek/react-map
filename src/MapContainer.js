@@ -21,6 +21,7 @@ import ReactDOM from 'react-dom'
 
    componentDidMount() {
     this.loadMap()
+     this.onclickPlace()
    }
    loadMap() {
     if (this.props && this.props.google) {
@@ -37,6 +38,22 @@ import ReactDOM from 'react-dom'
        this.addMarkers()
     }
    }
+
+   onclickPlace = () => {
+
+    const {infowindow} = this.state
+     const displayInfowindow = (e) => {
+      const {markers} = this.state
+      const markerIndex = markers.findIndex(m => m.title.toLowerCase() === e.target.innerText.toLowerCase())
+      this.populateInfoWindow(markers[markerIndex], infowindow)
+    }
+    document.querySelector('.locations-list').addEventListener('click', function (e) {
+      if(e.target && e.target.nodeName === "LI") {
+        displayInfowindow(e)
+      }
+    })
+  }
+
    addMarkers = () => {
     const {google} = this.props
     let {infowindow} = this.state
@@ -80,7 +97,7 @@ import ReactDOM from 'react-dom'
       <div>
         <div className="container">
         <div className="text-input">
-          <ul className="location">{
+          <ul className="locations-list">{
             markers.map((m, i) =>
               (<li key={i}>{m.title}</li>))
           }</ul>

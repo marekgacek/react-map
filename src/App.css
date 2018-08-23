@@ -17,6 +17,9 @@
  .App-intro {
   font-size: large;
 }
+.locations-list:hover  {
+  cursor: pointer;
+}
  @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -100,6 +103,7 @@
     width: 100%;
   }
 }
+
  @media screen and (max-width: 500px) {
   .heading {
     font-size: medium;
