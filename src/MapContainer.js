@@ -12,16 +12,22 @@ import ReactDOM from 'react-dom'
       { name: "Panorama of the Battle of Racławice", location: {lat: 51.110142, lng: 17.044386} },
       { name: "University Museum - Aula Leopoldina", location: {lat: 51.114020, lng:  17.034510} },
       { name: "Tumski Bridge", location: {lat: 51.114709, lng: 17.042330} },
-      { name: "ZOO", location: {lat: 51.104469, lng:  17.075200} }
+      { name: "ZOO", location: {lat: 51.104469, lng:  17.075200}},
+      { name: "Main railway station", location: {lat: 51.098784, lng:  17.036510}}
+
     ],
     query: '',
     markers: [],
-    infowindow: new this.props.google.maps.InfoWindow()
+    infowindow: new this.props.google.maps.InfoWindow(),
+     changeIcon: null
   }
 
    componentDidMount() {
     this.loadMap()
      this.onclickPlace()
+     // Create a "highlighted location" marker color for when the user
+    // clicks on the marker.
+    this.setState({changeIcon: this.makeMarkerIcon('2486ff')})
    }
    loadMap() {
     if (this.props && this.props.google) {
@@ -83,9 +89,18 @@ import ReactDOM from 'react-dom'
   // This function populates the infowindow when the marker is clicked. We'll only allow
        // one infowindow which will open at the marker that is clicked, and populate based
        // on that markers position.
-       populateInfoWindow(marker, infowindow) {
+       populateInfoWindow = (marker, infowindow) => {
+         const defaultIcon = marker.getIcon()
+   const {changeIcon, markers} = this.state
          // Check to make sure the infowindow is not already opened on this marker.
          if (infowindow.marker !== marker) {
+           // reset the color of previous marker
+     if (infowindow.marker) {
+       const ind = markers.findIndex(m => m.title === infowindow.marker.title)
+       markers[ind].setIcon(defaultIcon)
+     }
+     // change marker icon color of clicked marker
+     marker.setIcon(changeIcon)
            infowindow.marker = marker;
            infowindow.setContent('<div>' + marker.title + '</div>');
            infowindow.open(this.map, marker);
@@ -95,7 +110,20 @@ import ReactDOM from 'react-dom'
            });
          }
        }
-
+       // This function takes in a COLOR, and then creates a new marker
+            // icon of that color. The icon will be 20 px wide by 30 high, have an origin
+            // of 0, 0 and be anchored at 10, 34).
+          makeMarkerIcon = (markerColor) => {
+            const {google} = this.props
+              var markerImage = new google.maps.MarkerImage(
+                'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+                '|40|_|%E2%80%A2',
+                new google.maps.Size(20, 30),
+                new google.maps.Point(0, 0),
+                new google.maps.Point(10, 34),
+                new google.maps.Size(21,34));
+              return markerImage;
+            }
    render() {
      const { locations, query, markers, infowindow} = this.state
     if (query) {
