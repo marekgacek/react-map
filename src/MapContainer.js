@@ -54,6 +54,10 @@ import ReactDOM from 'react-dom'
     })
   }
 
+  whenValueChange = (e) => {
+      this.setState({query: e.target.value})
+    }
+
    addMarkers = () => {
     const {google} = this.props
     let {infowindow} = this.state
@@ -92,13 +96,35 @@ import ReactDOM from 'react-dom'
          }
        }
    render() {
-     const {markers} = this.state
+     const { locations, query, markers, infowindow} = this.state
+    if (query) {
+      locations.forEach((l,i) => {
+        if(l.name.toLowerCase().includes(query.toLowerCase())) {
+          markers[i].setVisible(true)
+        } else {
+          if (infowindow.marker === markers[i]){
+            // close the info window if marker removed
+            infowindow.close()
+          }
+          markers[i].setVisible(false)
+        }
+      })
+    } else {
+      locations.forEach((l,i) => {
+        if (markers.length && markers[i]) {
+          markers[i].setVisible(true)
+        }
+      })
+    }
     return (
       <div>
         <div className="container">
         <div className="text-input">
+        <input role="search" type='text'
+                   value={this.state.value}
+                   onChange={this.whenValueChange}/>
           <ul className="locations-list">{
-            markers.map((m, i) =>
+          markers.filter(m => m.getVisible()).map((m, i) =>
               (<li key={i}>{m.title}</li>))
           }</ul>
           </div>
