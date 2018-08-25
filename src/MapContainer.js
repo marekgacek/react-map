@@ -172,7 +172,7 @@ export default class MapContainer extends Component {
     return (
       <div>
         <div className="container">
-          <div className="text-input">
+          <div className="sidebar text-input text-input-hidden">
             <input
               role="search"
               type="text"

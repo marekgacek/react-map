@@ -3,6 +3,18 @@ import { GoogleApiWrapper } from "google-maps-react";
 import "./App.css";
 import MapContainer from "./MapContainer";
 class App extends Component {
+	componentDidMount() {
+    document.querySelector('.menu').addEventListener('click', this.showMenu)
+    document.querySelector('.menu').addEventListener('keydown', (e) => {
+      if(e.keyCode === 13) {
+        document.querySelector('.menu').focus()
+        this.showMenu()
+      }
+    })
+  }
+  showMenu = () => {
+    document.querySelector('.sidebar').classList.toggle('text-input-hidden')
+  }
   render() {
     return (
       <div>
