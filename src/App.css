@@ -47,7 +47,7 @@
  .map {
      margin: 0;
      width: 85%;
-     height: 100vh;
+     height: 170vh;
 }
  .container {
      display: flex;
@@ -56,7 +56,7 @@
  .text-input {
      width: 15%;
      background-color: rgb(57, 57, 62);
-     height: 100vh;
+     height: 170vh;
 }
  .text-input input {
      width: 100%;
