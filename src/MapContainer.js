@@ -207,10 +207,14 @@ export default class MapContainer extends Component {
     }
     return (
       <div>
-        <div className="container">
+	  {this.state.error ? (<div className="error">
+            Unexpected error - please try again
+            <div className="error-description">{this.state.error}</div>
+          </div>):
+        (<div className="container">
           <div className="sidebar text-input text-input-hidden">
             <input
-			aria-labelledby="menu"
+			aria-labelledby="search-field"
               role="search"
               type="text"
               placeholder="Enter your favourite place!"
@@ -226,7 +230,7 @@ export default class MapContainer extends Component {
           <div role="application" className="map" ref="map">
             loading map...
           </div>
-        </div>
+	  </div>)}
       </div>
     );
   }

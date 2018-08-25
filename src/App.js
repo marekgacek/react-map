@@ -27,7 +27,9 @@ class App extends Component {
             <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z" />
           </svg>
         </a>
+		 <header>
         <h1 className="heading"> Udacity Google Map + React Project </h1>
+		 </header>
         <MapContainer google={this.props.google} />
       </div>
     );
