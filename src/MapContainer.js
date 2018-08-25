@@ -35,7 +35,9 @@ export default class MapContainer extends Component {
     query: "",
     markers: [],
     infowindow: new this.props.google.maps.InfoWindow(),
-    changeIcon: null
+    changeIcon: null,
+	 error: null,
+    mapError: null
   };
 
   componentDidMount() {
@@ -61,6 +63,8 @@ export default class MapContainer extends Component {
       );
       this.map = new maps.Map(node, mapConfig);
       this.addMarkers();
+    }else {
+      this.setState({mapError: "error while loading application"})
     }
   }
 
@@ -80,6 +84,11 @@ export default class MapContainer extends Component {
           displayInfowindow(e);
         }
       });
+	  document.querySelector('.locations-list').addEventListener('keydown', function (e) {
+      if(e.keyCode === 13 ){
+        displayInfowindow(e)
+      }
+    })
   };
 
   whenValueChange = e => {
@@ -201,6 +210,7 @@ export default class MapContainer extends Component {
         <div className="container">
           <div className="sidebar text-input text-input-hidden">
             <input
+			aria-labelledby="menu"
               role="search"
               type="text"
               placeholder="Enter your favourite place!"
@@ -209,7 +219,7 @@ export default class MapContainer extends Component {
             />
             <ul className="locations-list">
               {markers.filter(m => m.getVisible()).map((m, i) => (
-                <li key={i}>{m.title}</li>
+                <li role="link" tabIndex="0" key={i}>{m.title}</li>
               ))}
             </ul>
           </div>
