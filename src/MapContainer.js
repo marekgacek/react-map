@@ -114,6 +114,11 @@ export default class MapContainer extends Component {
   populateInfoWindow = (marker, infowindow) => {
     const defaultIcon = marker.getIcon();
     const { changeIcon, markers } = this.state;
+	const {google} = this.props
+
+    const service = new google.maps.places.PlacesService(this.map)
+    const geocoder = new google.maps.Geocoder()
+
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker !== marker) {
       // reset the color of previous marker
@@ -124,8 +129,30 @@ export default class MapContainer extends Component {
       // change marker icon color of clicked marker
       marker.setIcon(changeIcon);
       infowindow.marker = marker;
-      infowindow.setContent("<div>" + marker.title + "</div>");
-      infowindow.open(this.map, marker);
+	  geocoder.geocode({'location': marker.position}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          if (results[1]) {
+            service.getDetails({
+              placeId: results[1].place_id
+            }, (place, status) => {
+              if (status === google.maps.places.PlacesServiceStatus.OK) {
+                infowindow.setContent(`<h4>Location: <strong>${marker.title}</strong></h4>
+                             <div>Latitude: ${marker.getPosition().lat()}</div>
+                             <div>Longitude: ${marker.getPosition().lng()}</div>                         
+                             <h4> Additional details: </h4>
+                             <div>${place.name}, ${place.formatted_address}</div>
+                             `);
+                infowindow.open(this.map, marker);
+              }
+            });
+
+          } else {
+            window.alert('No results found');
+          }
+        } else {
+          window.alert('Geocoder failed due to: ' + status);
+        }
+      });
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener("closeclick", function() {
         infowindow.setMarker = null;
