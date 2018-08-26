@@ -16,11 +16,11 @@ Project 8 (final) of the [Front-End Web Developer with Udacity](https://eu.udaci
 ### Warning
 The service worker is only implemented during production build mode!
 
-To run in production build mode and get a service worker
-create production build with 
-npm run build
-serve -s build
-then navigate to http://localhost:5000/
+To run in production build mode and get a service worker create production build with 
+-npm run build
+-serve -s build
+-then navigate to http://localhost:5000/
+
 ### TL;DL
 
 - **Clone** this repository
