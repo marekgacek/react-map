@@ -3,7 +3,13 @@ import { GoogleApiWrapper } from "google-maps-react";
 import "./App.css";
 import MapContainer from "./MapContainer";
 class App extends Component {
+	
+	gm_authFailure(){
+    window.alert("Google Maps error!")
+}
 	componentDidMount() {
+		
+	window.gm_authFailure = this.gm_authFailure;
     document.querySelector('.menu').addEventListener('click', this.showMenu)
     document.querySelector('.menu').addEventListener('keydown', (e) => {
       if(e.keyCode === 13) {
