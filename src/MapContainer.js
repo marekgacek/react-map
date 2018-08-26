@@ -37,12 +37,29 @@ export default class MapContainer extends Component {
     infowindow: new this.props.google.maps.InfoWindow(),
     changeIcon: null,
 	 error: null,
-    mapError: null
+    mapError: null,
+	users: []
   };
 
   componentDidMount() {
-    this.loadMap();
-    this.onclickPlace();
+	  const url = 'https://randomuser.me/api/?results=10'
+    fetch(url)
+      .then(data => {
+        if(data.ok) {
+          return data.json()
+        } else {
+          throw new Error(data.statusText)
+        }
+      })
+      .then(data => {
+        this.setState({users: data.results})
+        this.loadMap()
+        this.onclickPlace()
+      })
+      .catch(err => {
+        this.setState({error: err.toString()})
+      })
+    
     // Create a "highlighted location" marker color for when the user
     // clicks on the marker.
     this.setState({ changeIcon: this.makeMarkerIcon("2486ff") });
@@ -75,7 +92,7 @@ export default class MapContainer extends Component {
       const markerIndex = markers.findIndex(
         m => m.title.toLowerCase() === e.target.innerText.toLowerCase()
       );
-      this.populateInfoWindow(markers[markerIndex], infowindow);
+      this.populateInfoWindow(markers[markerIndex], infowindow, this.state.users[markerIndex]);
     };
     document
       .querySelector(".locations-list")
@@ -96,6 +113,7 @@ export default class MapContainer extends Component {
   };
 
   addMarkers = () => {
+	  const {users} = this.state
     const { google } = this.props;
     let { infowindow } = this.state;
     const bounds = new google.maps.LatLngBounds();
@@ -107,7 +125,7 @@ export default class MapContainer extends Component {
         title: location.name
       });
       marker.addListener("click", () => {
-        this.populateInfoWindow(marker, infowindow);
+        this.populateInfoWindow(marker, infowindow, users[ind]);
       });
       this.setState(state => ({
         markers: [...state.markers, marker]
@@ -120,7 +138,7 @@ export default class MapContainer extends Component {
   // This function populates the infowindow when the marker is clicked. We'll only allow
   // one infowindow which will open at the marker that is clicked, and populate based
   // on that markers position.
-  populateInfoWindow = (marker, infowindow) => {
+  populateInfoWindow = (marker, infowindow, user) => {
     const defaultIcon = marker.getIcon();
     const { changeIcon, markers } = this.state;
 	const {google} = this.props
@@ -150,7 +168,9 @@ export default class MapContainer extends Component {
                              <div>Longitude: ${marker.getPosition().lng()}</div>                         
                              <h4> Additional details: </h4>
                              <div>${place.name}, ${place.formatted_address}</div>
-                             `);
+							 <div className=capitalize>${user.name.first} ${user.name.last} recommend it</div>
+                             <img src="${user.picture.medium}" alt="User recommend ${marker.title}"/>
+							 <div class=capitalize ><strong>${user.name.first} ${user.name.last}</strong> recommend it</div>`);
                 infowindow.open(this.map, marker);
               }
             });

@@ -30,6 +30,9 @@
      border-color: #f71607;
      color: #f71607;
 }
+.capitalize {
+	text-transform: capitalize;
+}
  @keyframes App-logo-spin {
      from {
          transform: rotate(0deg);
