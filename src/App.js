@@ -24,8 +24,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <a className="menu" tabIndex="0">
-          <svg
+        <a className="menu" tabindex ="0" >
+          <svg tabindex ="0"
             className="hamburger-icon"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
