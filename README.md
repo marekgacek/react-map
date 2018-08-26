@@ -13,6 +13,14 @@ Project 8 (final) of the [Front-End Web Developer with Udacity](https://eu.udaci
 
 ## For Developers
 
+### Warning
+The service worker is only implemented during production build mode!
+
+To run in production build mode and get a service worker
+create production build with 
+npm run build
+serve -s build
+then navigate to http://localhost:5000/
 ### TL;DL
 
 - **Clone** this repository
@@ -27,6 +35,7 @@ Project 8 (final) of the [Front-End Web Developer with Udacity](https://eu.udaci
 - The project uses **React**
 - The project was built with `create-react-app`
 - The project uses [Google Maps API](https://developers.google.com/maps/documentation/)
+- The project uses https://randomuser.me/ 3rd party API
 
 
 ### React hierarchy

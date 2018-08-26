@@ -36,30 +36,30 @@ export default class MapContainer extends Component {
     markers: [],
     infowindow: new this.props.google.maps.InfoWindow(),
     changeIcon: null,
-	 error: null,
+    error: null,
     mapError: null,
-	users: []
+    users: []
   };
 
   componentDidMount() {
-	  const url = 'https://randomuser.me/api/?results=10'
+    const url = "https://randomuser.me/api/?results=10";
     fetch(url)
       .then(data => {
-        if(data.ok) {
-          return data.json()
+        if (data.ok) {
+          return data.json();
         } else {
-          throw new Error(data.statusText)
+          throw new Error(data.statusText);
         }
       })
       .then(data => {
-        this.setState({users: data.results})
-        this.loadMap()
-        this.onclickPlace()
+        this.setState({ users: data.results });
+        this.loadMap();
+        this.onclickPlace();
       })
       .catch(err => {
-        this.setState({error: err.toString()})
-      })
-    
+        this.setState({ error: err.toString() });
+      });
+
     // Create a "highlighted location" marker color for when the user
     // clicks on the marker.
     this.setState({ changeIcon: this.makeMarkerIcon("2486ff") });
@@ -80,8 +80,8 @@ export default class MapContainer extends Component {
       );
       this.map = new maps.Map(node, mapConfig);
       this.addMarkers();
-    }else {
-      this.setState({mapError: "error while loading application"})
+    } else {
+      this.setState({ mapError: "error while loading application" });
     }
   }
 
@@ -92,7 +92,11 @@ export default class MapContainer extends Component {
       const markerIndex = markers.findIndex(
         m => m.title.toLowerCase() === e.target.innerText.toLowerCase()
       );
-      this.populateInfoWindow(markers[markerIndex], infowindow, this.state.users[markerIndex]);
+      this.populateInfoWindow(
+        markers[markerIndex],
+        infowindow,
+        this.state.users[markerIndex]
+      );
     };
     document
       .querySelector(".locations-list")
@@ -101,11 +105,13 @@ export default class MapContainer extends Component {
           displayInfowindow(e);
         }
       });
-	  document.querySelector('.locations-list').addEventListener('keydown', function (e) {
-      if(e.keyCode === 13 ){
-        displayInfowindow(e)
-      }
-    })
+    document
+      .querySelector(".locations-list")
+      .addEventListener("keydown", function(e) {
+        if (e.keyCode === 13) {
+          displayInfowindow(e);
+        }
+      });
   };
 
   whenValueChange = e => {
@@ -113,7 +119,7 @@ export default class MapContainer extends Component {
   };
 
   addMarkers = () => {
-	  const {users} = this.state
+    const { users } = this.state;
     const { google } = this.props;
     let { infowindow } = this.state;
     const bounds = new google.maps.LatLngBounds();
@@ -141,10 +147,10 @@ export default class MapContainer extends Component {
   populateInfoWindow = (marker, infowindow, user) => {
     const defaultIcon = marker.getIcon();
     const { changeIcon, markers } = this.state;
-	const {google} = this.props
+    const { google } = this.props;
 
-    const service = new google.maps.places.PlacesService(this.map)
-    const geocoder = new google.maps.Geocoder()
+    const service = new google.maps.places.PlacesService(this.map);
+    const geocoder = new google.maps.Geocoder();
 
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker !== marker) {
@@ -156,30 +162,47 @@ export default class MapContainer extends Component {
       // change marker icon color of clicked marker
       marker.setIcon(changeIcon);
       infowindow.marker = marker;
-	  geocoder.geocode({'location': marker.position}, function(results, status) {
+      geocoder.geocode({ location: marker.position }, function(
+        results,
+        status
+      ) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
-            service.getDetails({
-              placeId: results[1].place_id
-            }, (place, status) => {
-              if (status === google.maps.places.PlacesServiceStatus.OK) {
-                infowindow.setContent(`<h4>Location: <strong>${marker.title}</strong></h4>
+            service.getDetails(
+              {
+                placeId: results[1].place_id
+              },
+              (place, status) => {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                  infowindow.setContent(`<h4>Location: <strong>${
+                    marker.title
+                  }</strong></h4>
                              <div>Latitude: ${marker.getPosition().lat()}</div>
-                             <div>Longitude: ${marker.getPosition().lng()}</div>                         
+                             <div>Longitude: ${marker
+                               .getPosition()
+                               .lng()}</div>                         
                              <h4> Additional details: </h4>
-                             <div>${place.name}, ${place.formatted_address}</div>
-							 <div className=capitalize>${user.name.first} ${user.name.last} recommend it</div>
-                             <img src="${user.picture.medium}" alt="User recommend ${marker.title}"/>
-							 <div class=capitalize ><strong>${user.name.first} ${user.name.last}</strong> recommend it</div>`);
-                infowindow.open(this.map, marker);
+                             <div>${place.name}, ${
+                    place.formatted_address
+                  }</div>
+							 <div className=capitalize>${user.name.first} ${
+                    user.name.last
+                  } recommend it</div>
+                             <img src="${
+                               user.picture.medium
+                             }" alt="User recommend ${marker.title}"/>
+							 <div class=capitalize ><strong>${user.name.first} ${
+                    user.name.last
+                  }</strong> recommend it</div>`);
+                  infowindow.open(this.map, marker);
+                }
               }
-            });
-
+            );
           } else {
-            window.alert('No results found');
+            window.alert("No results found");
           }
         } else {
-          window.alert('Geocoder failed due to: ' + status);
+          window.alert("Geocoder failed due to: " + status);
         }
       });
       // Make sure the marker property is cleared if the infowindow is closed.
@@ -227,30 +250,35 @@ export default class MapContainer extends Component {
     }
     return (
       <div>
-	  {this.state.error ? (<div className="error">
+        {this.state.error ? (
+          <div className="error">
             Unexpected error - please try again
             <div className="error-description">{this.state.error}</div>
-          </div>):
-        (<div className="container">
-          <div className="sidebar text-input text-input-hidden">
-            <input
-			aria-labelledby="search-field"
-              role="search"
-              type="text"
-              placeholder="Enter your favourite place!"
-              value={this.state.value}
-              onChange={this.whenValueChange}
-            />
-            <ul className="locations-list">
-              {markers.filter(m => m.getVisible()).map((m, i) => (
-                <li role="link" tabIndex="0" key={i}>{m.title}</li>
-              ))}
-            </ul>
           </div>
-          <div role="application" className="map" ref="map">
-            loading map...
+        ) : (
+          <div className="container">
+            <div className="sidebar text-input text-input-hidden">
+              <input
+                aria-labelledby="search-field"
+                role="search"
+                type="text"
+                placeholder="Enter your favourite place!"
+                value={this.state.value}
+                onChange={this.whenValueChange}
+              />
+              <ul className="locations-list">
+                {markers.filter(m => m.getVisible()).map((m, i) => (
+                  <li role="link" tabIndex="0" key={i}>
+                    {m.title}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div role="application" className="map" ref="map">
+              loading map...
+            </div>
           </div>
-	  </div>)}
+        )}
       </div>
     );
   }

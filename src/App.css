@@ -12,13 +12,13 @@
      color: white;
 }
  .text-input-hidden {
-         display: none;
-    }
-     .menu {
-         display: block;
-         position: absolute;
-         top: 13px !important;
-    }
+     display: none;
+}
+ .menu {
+     display: block;
+     position: absolute;
+     top: 13px !important;
+}
  .App-title {
      font-size: 1.5em;
 }
@@ -30,8 +30,8 @@
      border-color: #f71607;
      color: #f71607;
 }
-.capitalize {
-	text-transform: capitalize;
+ .capitalize {
+     text-transform: capitalize;
 }
  @keyframes App-logo-spin {
      from {
@@ -84,14 +84,13 @@
      color: white;
      line-height: 2cm;
 }
- 
  .error {
      color: red;
 }
  .hamburger-icon {
-         width: 45px;
-         fill: rgb(0, 0, 0);
-    }
+     width: 45px;
+     fill: rgb(0, 0, 0);
+}
  @media screen and (max-width: 800px) {
      .text-input-hidden {
          display: none;
@@ -122,7 +121,7 @@
          font-size: medium;
          padding: 1em;
     }
-	 .hamburger-icon {
+     .hamburger-icon {
          width: 25px;
          fill: rgb(0, 0, 0);
     }
