@@ -7,6 +7,10 @@ class App extends Component {
     window.alert("Google Maps error!");
   }
   componentDidMount() {
+    window.addEventListener("unhandledrejection", function (event) {
+  console.warn("WARNING: Unhandled promise rejection. Reason: "
+               + event.reason);
+});
     window.gm_authFailure = this.gm_authFailure;
     document.querySelector(".menu").addEventListener("click", this.showMenu);
     document.querySelector(".menu").addEventListener("keydown", e => {

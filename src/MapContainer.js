@@ -185,12 +185,7 @@ export default class MapContainer extends Component {
                              <div>${place.name}, ${
                     place.formatted_address
                   }</div>
-							 <div className=capitalize>${user.name.first} ${
-                    user.name.last
-                  } recommend it</div>
-                             <img src="${
-                               user.picture.medium
-                             }" alt="User recommend ${marker.title}"/>
+                <img src="${user.picture.medium}" alt="User recommend ${marker.title}"/>
 							 <div class=capitalize ><strong>${user.name.first} ${
                     user.name.last
                   }</strong> recommend it</div></div>`);
@@ -257,9 +252,9 @@ export default class MapContainer extends Component {
           </div>
         ) : (
           <div className="container">
-            <div className="sidebar text-input text-input-hidden">
+            <div id="search-field" className="sidebar text-input text-input-hidden">
               <input
-                aria-labelledby="search-field"
+                aria-label="search-field"
                 role="search"
                 type="text"
                 placeholder="Enter your favourite place!"
