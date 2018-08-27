@@ -174,13 +174,13 @@ export default class MapContainer extends Component {
               },
               (place, status) => {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
-                  infowindow.setContent(`<h4>Location: <strong>${
+                  infowindow.setContent(`<div tabindex="0"> <h4>Location: <strong>${
                     marker.title
                   }</strong></h4>
                              <div>Latitude: ${marker.getPosition().lat()}</div>
                              <div>Longitude: ${marker
                                .getPosition()
-                               .lng()}</div>                         
+                               .lng()}</div>
                              <h4> Additional details: </h4>
                              <div>${place.name}, ${
                     place.formatted_address
@@ -193,7 +193,7 @@ export default class MapContainer extends Component {
                              }" alt="User recommend ${marker.title}"/>
 							 <div class=capitalize ><strong>${user.name.first} ${
                     user.name.last
-                  }</strong> recommend it</div>`);
+                  }</strong> recommend it</div></div>`);
                   infowindow.open(this.map, marker);
                 }
               }
